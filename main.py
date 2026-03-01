@@ -12,6 +12,18 @@ def download_youtube_video(url, output_path='downloads'):
         'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
         'outtmpl': f'{output_path}/%(title)s.%(ext)s',
         'merge_output_format': 'mp4',
+        # Fix for 403 errors - use OAuth and avoid SABR streaming
+        'extractor_args': {
+            'youtube': {
+                'player_client': ['android', 'web'],
+                'player_skip': ['webpage', 'configs'],
+            }
+        },
+        # Additional options to avoid blocks
+        'nocheckcertificate': True,
+        'ignoreerrors': False,
+        'geo_bypass': True,
+        'no_warnings': False,
     }
     
     try:
@@ -24,5 +36,5 @@ def download_youtube_video(url, output_path='downloads'):
 
 # Example usage
 if __name__ == "__main__":
-    video_url = "https://youtu.be/123456789"
+    video_url = "https://www.youtube.com/watch?v=12345678912"
     download_youtube_video(video_url)
